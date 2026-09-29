@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.DS_Store
+.env
+db.sqlite3
+secret.key
+interface/data/
+interface/weights/*.zip
+interface/weights/*.pth
+interface/weights/*.joblib
+interface/weights/gru_*/
+static/js/highcharts.js

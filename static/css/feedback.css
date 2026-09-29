@@ -1,0 +1,392 @@
+button {
+    border: 0;
+}
+
+/* ========== Feedback 專用樣式 ========== */
+.feedback-bed {
+    background-color: rgb(74, 91, 112);
+    box-shadow: 0rem 0.75rem 1.5rem -0.5rem rgba(39, 76, 119, 0.16);
+    border-radius: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 4.5rem;
+    width: 100%;
+    transition: 0.1s;
+}
+
+.feedback-bed:hover {
+    transform: scale(1.02);
+    box-shadow: 0rem 0.75rem 1.5rem -0.5rem rgba(39, 76, 119, 0.3);
+}
+
+.feedback-bed:active {
+    transform: scale(1);
+    transition: 0.1s;
+}
+
+.feedback-bed-inactive {
+    background-color: #CBD3DE;
+}
+
+.feedback-bed-active {
+    background-color: #E91111;
+}
+
+.feedback-bed-active-20ver {
+    background-color: #FEA623;
+}
+
+.feedback-bed-active-bothver {
+    background-color: hsl(16, 95%, 56%);
+}
+
+.feedback-bed-text {
+    color: #f8f8fB;
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+/* ========== Map Grid 布局 - 全部垂直排列 ========== */
+.feedback-map {
+    padding: 1.4rem;
+    display: flex;
+    gap: 2rem;
+    position: relative;
+}
+
+/* 左側 left_patients - 垂直排列 */
+.feedback-left-boxes {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-left: 2rem;
+}
+
+.feedback-left-boxes h1 {
+    color: rgba(135, 156, 179, 0.4);
+    font-size: 3.5rem;
+    font-weight: bold;
+    text-shadow: 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.15);
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+/* B 區 - 垂直排列 */
+.feedback-area-b-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-left: 2rem;
+}
+
+.feedback-area-b-vertical h1 {
+    color: rgba(135, 156, 179, 0.4);
+    font-size: 3.5rem;
+    font-weight: bold;
+    text-shadow: 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.15);
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+/* 下方 bottom_patients - 垂直排列 */
+.feedback-bottom-boxes {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-left: 2rem;
+}
+
+.feedback-bottom-boxes h1 {
+    color: rgba(135, 156, 179, 0.4);
+    font-size: 3.5rem;
+    font-weight: bold;
+    text-shadow: 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.15);
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+/* A 區 - 垂直排列 */
+.feedback-area-a-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-left: 2rem;
+}
+
+.feedback-area-a-vertical h1 {
+    color: rgba(135, 156, 179, 0.4);
+    font-size: 3.5rem;
+    font-weight: bold;
+    text-shadow: 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.15);
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+/* 所有垂直床位容器 */
+.feedback-vertical-beds {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 10rem;
+}
+
+/* 確認按鈕區域 */
+.feedback-confirm-button-area {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.feedback-confirm-button-area .feedback-btn-confirm {
+    height: 6rem;
+    width: 14rem;
+    font-size: 2rem;
+}
+
+/* ========== Modal 樣式 ========== */
+.modal-idh {
+    background-color: #f4f7fb;
+    margin: auto;
+    border: 1px solid #888;
+    border-radius: 2rem;
+    box-shadow: 0rem 0.75rem 1.5rem -0.5rem rgba(0, 0, 0, 0.5);
+    width: 80%;
+    height: 90%;
+}
+
+.modal-feedback {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 1em;
+    position: relative;
+    overflow: auto;
+}
+
+.feedback-patient {
+    height: 20em;
+    display: flex;
+    align-items: flex-end;
+    margin: 2em;
+}
+
+.feedback-left {
+    margin-right: 4em;
+}
+
+.feedback-name {
+    font-size: 2.5rem;
+    margin-bottom: 1em;
+}
+
+.idh-linechart {
+    overflow: visible;
+}
+
+/* ========== 按鈕樣式 ========== */
+.feedback-btn-confirm {
+    background-color: #FEA623;
+    box-shadow: 0rem 0.75rem 1.5rem -0.5rem rgba(39, 76, 119, 0.16);
+    border-radius: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 4.5rem;
+    color: #f4f7fb;
+    font-weight: 600;
+    font-size: 1.25rem;
+    transition: 0.1s;
+}
+
+.feedback-btn-confirm:hover {
+    background-color: #feb123;
+    transform: scale(1.02);
+    box-shadow: 0rem 0.75rem 1.5rem -0.5rem rgba(39, 76, 119, 0.3);
+}
+
+.feedback-btn-confirm:active {
+    transform: scale(0.98);
+    transition: 0.2s;
+}
+
+.feedback-submit-btn {
+    width: 10em;
+    margin: 2em auto;
+}
+
+.btn {
+    color: white;
+    padding: 0.2rem 0.7rem;
+    border: 1px #274C77 solid;
+    background-color: #274C77;
+    border-radius: 0.2rem;
+}
+
+.btn:hover {
+    transform: scale(1.02);
+    box-shadow: 0rem 0.75rem 1.5rem -0.5rem rgba(39, 76, 119, 0.3);
+}
+
+.btn:active {
+    transform: scale(0.98);
+    transition: 0.2s;
+}
+
+/* ========== 表單樣式 ========== */
+.note {
+    display: flex;
+    flex-direction: column;
+    margin: 1em 0em;
+}
+
+.note-container {
+    position: relative;
+    padding-left: 2em;
+    margin-top: 0.5em;
+    margin-left: 1.5em;
+}
+
+.note-container-other {
+    position: relative;
+}
+
+.other-decoration {
+    margin-top: 0.5em;
+}
+
+.note-container input {
+    position: absolute;
+    opacity: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 1.5em;
+    width: 1.5em;
+    background-color: #eee;
+}
+
+.radio {
+    border-radius: 50%;
+}
+
+.checkbox {
+    border-radius: 0.2em;
+}
+
+.note-container:hover input ~ .checkmark {
+    background-color: #ccc;
+    transform: scale(1.05);
+    transition: all 0.1s;
+}
+
+.note-container input:checked ~ .checkmark {
+    background-color: #62aaee;
+    transform: scale(1.05);
+    transition: all 0.1s;
+}
+
+.checkmark::after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.note-container input:checked ~ .checkmark::after {
+    display: block;
+}
+
+.note-container .radio::after {
+    top: 0.47em;
+    left: 0.47em;
+    width: 0.65em;
+    height: 0.65em;
+    border-radius: 50%;
+    background: white;
+}
+
+.note-container .checkbox::after {
+    top: 0.05em;
+    left: 0.35em;
+    width: 0.5em;
+    height: 0.7em;
+    border: solid white;
+    border-width: 0 0.25em 0.25em 0;
+    transform: rotate(45deg);
+}
+
+.note-time {
+    margin: 0.5rem 0 0.2rem 0;
+    display: flex;
+    align-items: center;
+}
+
+.note-title {
+    font-size: 1.5rem;
+    background-color: #CBD3DE;
+    padding: 0.1em 0.3em;
+    border-radius: 0.2em;
+}
+
+hr.rounded {
+    border: 3px solid #ccc;
+    border-radius: 5px;
+}
+
+.idh-time-input {
+    width: 15rem;
+    height: 2rem;
+    margin: 0 0.5rem;
+    font-size: 1.5rem;
+    border: 1px #274C77 solid;
+    border-radius: 0.5rem;
+    padding: 0 0.8em;
+}
+
+.nurseId {
+    width: 12rem;
+    height: 2rem;
+    padding: 0 0.8em;
+    border: 1px #274C77 solid;
+    border-radius: 0.5rem;
+    margin-right: 0.5em;
+}
+
+.hidden {
+    display: none;
+}
+
+.text-label {
+    font-size: 1rem;
+    margin-left: 1em;
+}
+
+.close-btn {
+    cursor: pointer;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+
+.close-btn img {
+    width: 2rem;
+    height: 2rem;
+}
+
+/* ========== 響應式媒體查詢 ========== */
+@media (max-width: 1440px) {
+    html {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 1024px) {
+    html {
+        font-size: 12px;
+    }
+}

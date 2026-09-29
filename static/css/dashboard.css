@@ -1,0 +1,1052 @@
+.map {
+    padding: 1.4rem 1.4rem 0rem 1.4rem;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: auto 2fr 1fr;
+    gap: 0.5rem;
+    position: relative;
+}
+
+/* A區左側的7個格子容器 */
+.left-boxes {
+    margin: 0.4em 0.6em;
+    grid-column: 1;
+    grid-row: 1;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: 1fr;
+    gap: 0.6rem;
+    width: 35rem;
+}
+
+/* B區下方的6個格子容器（左2個 + 間距 + 右4個）*/
+.bottom-boxes {
+    margin: 0.4em 0.6em;
+    grid-column: 1;
+    grid-row: 3;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr) 2rem repeat(4, 1fr);
+    gap: 0.75rem;  /* 0.75rem */
+    width: 40rem;  /* 從 38rem 再增加到 40rem */
+    padding-top: 1rem;
+}
+
+/* A區 - 調整高度 */
+.area_a {
+    grid-column: 3;
+    grid-row: 1;
+    min-width: 38rem;
+    max-width: 45rem;
+    min-height: 14rem;  /* 從 12rem 調整到 14rem */
+    max-height: 16rem;  /* 從 14rem 調整到 16rem */
+    margin-left: 3rem;
+    justify-self: end;
+} 
+
+.area_b {
+    grid-column: 1;
+    grid-row: 2;
+    max-width: 20rem;
+    min-height: 22rem;
+    max-height: 30rem;
+    margin-top: -4rem;
+    margin-right: 6.25rem;
+}
+
+.area h1 {
+    color: rgba(135, 156, 179, 0.4);
+    font-size: 4.5rem;
+    font-weight: bold;
+    text-shadow: 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.15);
+    width: 2.5rem;
+    text-align: center;
+}
+
+.area ul {
+    height: 100%;
+    flex: 1 1 0%;
+    list-style: none;
+    justify-content: space-between;
+}
+
+/* A區床位列表 - 調整間距 */
+.area.area_a ul {
+    margin: 0.3em 0.5em;  /* 減少 margin */
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    column-gap: 0.5rem;  /* 從 0.6rem 減少到 0.5rem */
+    row-gap: 0.4rem;     /* 從 0.625rem 減少到 0.4rem */
+    min-width: 38rem;
+    max-width: 45rem;
+    padding: 0 0.5em;
+}
+
+.area.area_b ul {
+    margin: 0.4em 0.6em;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+    column-gap: 1.25rem;
+    row-gap: 1.25rem;
+    min-width: 24rem;
+    max-width: 24rem;
+    max-height: 30rem;
+}
+
+/* 右下角IDH高風險病患區域 */
+.high-risk-area {
+    grid-column: 3;
+    grid-row: 2 / 4;
+    background-color: #f8f8f8;
+    border-radius: 0.5rem;
+    box-shadow: 0rem 0.75rem 1.5rem -0.5rem rgba(39, 76, 119, 0.16);
+    padding: 1.5rem;
+    margin-left: 7rem;
+    margin-right: 0;
+    min-width: 38rem;
+    max-width: 52rem;
+    min-height: 23rem;
+    max-height: calc(100vh - 11.25rem);
+    justify-self: end;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.high-risk-title {
+    color: #E91111;
+    font-size: 1.8rem;  /* 增大標題字體 */
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 0.125rem solid #E91111;
+    flex-shrink: 0;
+}
+
+.high-risk-log-container {
+    flex: 1;
+    max-height: 25rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+    padding-right: 0.5rem;
+}
+
+/* 自定義滾動條樣式 */
+.high-risk-log-container::-webkit-scrollbar {
+    width: 0.5rem;
+}
+
+.high-risk-log-container::-webkit-scrollbar-track {
+    background: #e0e0e0;
+    border-radius: 0.25rem;
+}
+
+.high-risk-log-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 0.25rem;
+}
+
+.high-risk-log-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.high-risk-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* 時間分隔線 */
+.timestamp-divider {
+    margin: 0.75rem 0 0.6rem 0;
+    padding: 0.5rem 0;
+    border-bottom: 0.0625rem solid #cbd3de;
+    font-size: 1.1rem;  /* 增大字體 */
+    color: #666;
+    font-weight: 600;
+}
+
+.timestamp-divider:first-child {
+    margin-top: 0;
+}
+
+/* 高風險項目 */
+.high-risk-item {
+    background-color: white;
+    border-left: 0.625rem solid #E91111;
+    padding: 0.7rem 1rem;
+    margin-bottom: 0.6rem;
+    border-radius: 0.3rem;
+    box-shadow: 0rem 0.25rem 0.5rem rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.high-risk-item:hover {
+    transform: translateX(0.1875rem);
+    box-shadow: 0rem 0.375rem 0.75rem rgba(0, 0, 0, 0.12);
+}
+
+/* ========== 主容器：左右分欄 ========== */
+.item-container {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+/* ========== 左側：處置狀態 ========== */
+.treatment-status {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    padding-right: 1.25rem;
+    border-right: 0.125rem solid #E8E8E8;
+}
+
+.treatment-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    gap: 0.2rem;
+}
+
+/* 複選框樣式 */
+.treatment-checkbox {
+    width: 1.25rem;
+    height: 1.25rem;
+    cursor: pointer;
+    appearance: none;
+    border: 0.125rem solid #CBD3DE;
+    border-radius: 0.25rem;
+    background-color: white;
+    transition: all 0.3s;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.treatment-checkbox:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+/* 已處置文字 */
+.treatment-text {
+    font-size: 1.3rem;  /* 增大字體 */
+    color: #666;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.treatment-checkbox:checked + .treatment-text {
+    color: #4CAF50;
+    font-weight: 600;
+}
+
+/* ========== 右側：資訊容器 ========== */
+.info-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+/* 床位和時間 */
+.log-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.high-risk-item .bed-name {
+    font-size: 1.8rem;  /* 增大床位名稱 */
+    font-weight: 600;
+    color: #4D4D4D;
+}
+
+.log-time {
+    font-size: 1.1rem;  /* 增大時間字體 */
+    color: #999;
+}
+
+/* 風險資訊 */
+.high-risk-item .risk-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.prediction-label {
+    font-weight: 500;
+    font-size: 1.4rem;  /* 增大字體 */
+    color: #666;
+}
+
+.high-risk-item .risk-probability {
+    color: #E91111;
+    font-weight: 600;
+    font-size: 1.8rem;  /* 增大機率字體 */
+}
+
+.high-risk-item.risk-medium .risk-probability {
+    color: #FEA623;
+}
+
+.high-risk-item.risk-low .risk-probability {
+    color: #4CAF50;
+}
+
+/* 生命徵象 */
+.risk-vitals {
+    font-size: 1.4rem;  /* 增大字體 */
+    color: #666;
+}
+
+/* 已處置狀態效果 */
+.high-risk-item.treated {
+    opacity: 0.65;
+    background-color: #f5f5f5;
+}
+
+.high-risk-item.treated .bed-name {
+    text-decoration: line-through;
+}
+
+/* 不同風險等級的邊框顏色 */
+.high-risk-item.risk-high {
+    border-left-color: #E91111;
+}
+
+.high-risk-item.risk-medium {
+    border-left-color: #FEA623;
+}
+
+.high-risk-item.risk-low {
+    border-left-color: #4CAF50;
+}
+
+.area .down {
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+}
+
+.divider {
+    width: 0.75rem;
+    height: 95%;
+    margin: 0 0.1em 0 0.4em;
+    align-self: flex-end;
+    filter: drop-shadow(0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.4));
+}
+
+.hide {
+    visibility: hidden;
+}
+
+.side-box{
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0rem 0.75rem 1.5rem -0.5rem rgba(39, 76, 119, 0.16);
+    border-radius: 0.5rem;
+    min-height: 8rem;
+    max-height: 8rem;
+    min-width: 7rem;
+    max-width: 9rem;
+    position: relative;
+    transition: all .05s;
+}
+
+.bottom-box {
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0rem 0.75rem 1.5rem -0.5rem rgba(39, 76, 119, 0.16);
+    border-radius: 0.5rem;
+    min-height: 9rem;
+    max-height: 9rem;
+    min-width: 11.25rem;   /* 從 9rem 再增加到 11rem */
+    max-width: 12rem;   /* 從 10rem 再增加到 12rem */
+    position: relative;
+    transition: all .05s;
+}
+
+/* 讓警告 Icon 浮動在床位卡片的右上角，不影響排版 */
+.warning-icon {
+    position: absolute;
+    top: -10px;    /* 根據您的喜好微調上下位置 (數字越小越往上) */
+    right: -10px;  /* 根據您的喜好微調左右位置 (數字越小越往右) */
+    width: 28px;   /* 鎖定寬度避免過大 */
+    height: 28px;  /* 鎖定高度避免過大 */
+    z-index: 10;   /* 確保它浮在最上層，不會被別的字蓋住 */
+}
+
+.bed {
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0rem 0.75rem 1.5rem -0.5rem rgba(39, 76, 119, 0.16);
+    border-radius: 0.5rem;
+    min-width: 9.65rem;
+    position: relative;
+    transition: all .05s;
+}
+
+/* 底部床位特殊寬度設定 - 優先級更高 */
+.bed.bottom-box {
+    min-width: 10rem !important;   /* 使用 !important 確保覆蓋 */
+    max-width: 12rem !important;
+}
+
+/* A區床位 - 調整高度 */
+.bed_a {
+    min-height: 8rem;   /* 從 7rem 調整到 8rem */
+    max-height: 8rem;   /* 從 7rem 調整到 8rem */
+}
+
+.bed_b {
+    min-height: 12rem;
+    max-height: 15rem;
+}
+
+.side-box:hover,
+.bottom-box:hover,
+.bed:hover {
+    transform: scale(1.02);
+    box-shadow: 0rem 0.75rem 1.5rem -0.5rem rgba(39, 76, 119, 0.1);
+}
+
+.spacer {
+    grid-column: 3;
+}
+
+.bed:active {
+    transform: scale(.98);
+}
+
+/* 床位頂部 - 調整 A 區 */
+.bed-top {
+    background-color: rgb(74, 91, 112);
+    height: 2rem;        /* 從 1.8rem 調整到 2rem */
+    padding-top: 0.05rem;
+    padding-bottom: 0.05rem;
+    border-radius: 0.5rem 0.5rem 0 0;
+    text-align: center;
+    color: #f8f8fB;
+    font-weight: 500;
+    font-size: 1.6rem;
+}
+
+.bed-inactive {
+    background-color: #CBD3DE;
+}
+
+/* 床位底部 - 調整 A 區 */
+.bed-bottom {
+    background-color: #f8f8f8;
+    border-radius: 0 0 0.5rem 0.5rem;
+    min-height: 5.5rem;  /* 從 5rem 調整到 5.5rem */
+    padding: 0.4rem 0.2rem 0.1rem 1rem;
+    display: flex;
+    flex: 1 1 0%;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.pressure,
+.dehydration {
+    position: relative;
+    text-align: center;
+}
+
+.heartbeat {
+    position: relative;
+    text-align: center;
+    margin-left: 1.2rem;
+}
+
+/* 圖示大小 - A 區調整 */
+.pressure>img,
+.heartbeat>img,
+.dehydration>img,
+.idhrate>img {
+    height: 1.8em;  /* 增大圖示 */
+}
+
+.img-text {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.55rem;  /* 增大數值字體 */
+}
+
+.danger {
+    color: #E91111;
+}
+
+.warning {
+    color: #FEA623;
+}
+
+.legend {
+    position: absolute;
+    top: 50%;
+    left: 43%;
+    transform: translate(-50%, -50%);
+    width: 45rem;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0rem 0.75rem 1.5rem -0.5rem rgba(39, 76, 119, 0.16);
+    border: 0.1875rem solid #CBD3DE;
+    border-radius: 0.5rem;
+    background-color: white;
+    z-index: 1;
+}
+
+.legend-top {
+    background-color: #CBD3DE;
+    height: 3em;
+    border: 0.1875rem solid #CBD3DE;
+    border-radius: 0.3rem 0.3rem 0 0;
+    text-align: center;
+    color: #4D4D4D;
+    font-weight: 700;
+    font-size: 2rem;
+    margin-bottom: 0.2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.legend-bottom {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto auto;
+    padding: 1.5em;
+    row-gap: 1.25em;
+    column-gap: 1.5em;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+}
+
+.legend-item img {
+    width: 3em;
+    margin: 0.2em 0.8em;
+}
+
+.legend-text {
+    font-size: 1.5rem;  /* 增大圖例文字 */
+    color: #4D4D4D;
+}
+
+/* ========== Tab 頁面樣式 ========== */
+.tab-area {
+    display: flex;
+    padding: 2.5rem;
+    height: 100%;
+}
+
+.tab-area-nurse {
+    padding: 2.5rem;
+    height: 100%;
+}
+
+.tab-area h1 {
+    color: rgba(135, 156, 179, 0.4);
+    font-size: 4.5rem;
+    font-weight: bold;
+    text-shadow: 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.15);
+    width: 4rem;
+    text-align: center;
+}
+
+/* Tab 內容容器 */
+.tab-content-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+}
+
+.tab-area ul {
+    margin: 1rem 3rem;
+    flex: 1 1 0%;
+    display: grid;
+    list-style: none;
+    justify-content: space-between;
+}
+
+/* A區 tab 頁面布局 - 4行4列 */
+.tab-area.tab-area-a ul {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: repeat(4, minmax(0, 1fr));
+    column-gap: 1.5rem;
+    row-gap: 1rem;
+    width: 100%;
+    height: 100%;
+}
+
+/* B區 tab 頁面布局 - 4行3列 */
+.tab-area.tab-area-b ul {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+    column-gap: 1.5rem;
+    row-gap: 1rem;
+    width: 100%;
+    height: 90%;
+}
+
+.tab-area .down {
+    grid-template-rows: repeat(5, minmax(0, 1fr));
+}
+
+.tab-bed .bed .bed-top {
+    height: 2.25rem;
+    padding: 0.2rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.tab-bed .bed .bed-bottom {
+    height: 40rem;
+}
+
+.tab-bed .bed .bed-bottom .pressure>img,
+.tab-bed .bed .bed-bottom .heartbeat>img,
+.tab-bed .bed .bed-bottom .dehydration>img,
+.tab-bed .bed .bed-bottom .idhrate>img {
+    height: 2.6em;
+}
+
+.tab-bed .bed .bed-bottom .pressure>.img-text,
+.tab-bed .bed .bed-bottom .heartbeat>.img-text,
+.tab-bed .bed .bed-bottom .dehydration>.img-text {
+    font-size: 2rem;
+}
+
+.tab-legend {
+    align-self: flex-end;
+    margin: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0rem 0.75rem 1.5rem -0.5rem rgba(39, 76, 119, 0.16);
+    border: 0.1875rem solid #CBD3DE;
+    border-radius: 0.5rem;
+    width: 20em;
+    height: fit-content;
+}
+
+.tab-legend .legend-top {
+    font-size: 1.25rem;
+}
+
+.tap-legend-bottom {
+    padding: 2em;
+}
+
+.tab-legend-bottom .legend-item {
+    display: flex;
+    margin: 1em 1em;
+}
+
+.tab-legend-bottom .legend-item>img {
+    width: 2em;
+    height: 2em;
+    margin: 0.2em 0.6em 0.2em 0.2em;
+}
+
+.tab-legend-bottom .legend-item .legend-text {
+    font-size: 1rem;
+}
+
+.bed-warning {
+    border: 0.1875rem solid #FEA623;
+    border-radius: 0.5rem;
+}
+
+.bed-top-warning {
+    padding-bottom: 0em;
+    border-radius: 0;
+    background-color: #FEA623;
+}
+
+.bed-danger {
+    border-radius: 0.5rem;
+}
+
+.bed-top-danger {
+    padding-bottom: 0em;
+    background-color: #E91111;
+}
+
+.danger-bg {
+    animation-name: dangerBGSparkle;
+    animation-iteration-count: infinite;
+    animation-duration: 1s;
+}
+
+.alert-trigger{
+    animation-name: dangerBGSparkle;
+    animation-iteration-count: infinite;
+    animation-duration: 1s;
+}
+
+@keyframes dangerBorderSparkle {
+    0% {
+        border: 0.1875rem solid #ffd4ce;
+    }
+
+    50% {
+        border: 0.1875rem solid #ffd4ce;
+    }
+
+    51% {
+        border: 0.1875rem solid rgb(74, 91, 112);
+    }
+
+    100% {
+        border: 0.1875rem solid rgb(74, 91, 112);
+    }
+}
+
+@keyframes dangerBGSparkle {
+    0% {
+        background-color: #ffd4ce;
+    }
+
+    50% {
+        background-color: #ffd4ce;
+    }
+
+    51% {
+        background-color: rgb(255, 255, 255);
+    }
+
+    100% {
+        background-color: rgb(255, 255, 255);
+    }
+}
+
+.bed>img {
+    width: 1.8em;
+    position: absolute;
+    top: -0.9em;
+    right: -0.9em;
+}
+
+.tab-bed .bed>img {
+    width: 2.5em;
+}
+
+.export-file-confirm {
+    background-color: #FEA623;
+    box-shadow: 0rem 0.75rem 1.5rem -0.5rem rgba(39, 76, 119, 0.16);
+    border-radius: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 4rem;
+    width: 8rem;
+    color: #f4f7fb;
+    font-weight: 600;
+    font-size: 1.4rem;  /* 增大按鈕文字 */
+    transition: 0.1s;
+    margin: 14rem 5rem;
+    cursor: pointer;
+}
+
+.export-file-confirm:hover {
+    background-color: #feb123;
+    transform: scale(1.02);
+    box-shadow: 0rem 0.75rem 1.5rem -0.5rem rgba(39, 76, 119, 0.3);
+}
+
+/* ========== 響應式媒體查詢 ========== */
+/* 新增：常見現代平板 (例如 iPad Air 820px / iPad Pro 11吋 834px) */
+@media (max-width: 834px) {
+    html {
+        font-size: 10.5px; /* 平滑過渡字體大小 */
+    }
+    
+    .left-boxes {
+        width: 24rem; /* 稍微縮小左側區域 */
+        gap: 0.3rem;
+    }
+    
+    .area_a {
+        min-width: 22rem;
+        max-width: 28rem;
+        min-height: 7rem;
+        max-height: 9rem;
+        margin-left: 1rem; /* 減少與左側的間距 */
+    }
+    
+    .area.area_a ul {
+        min-width: 22rem;
+        max-width: 28rem;
+        column-gap: 0.25rem;
+        row-gap: 0.2rem;
+    }
+    
+    .bed_a {
+        min-height: 5rem;
+        max-height: 5rem;
+    }
+    
+    .bed-top {
+        height: 1.4rem;
+        font-size: 1rem;
+    }
+    
+    .bed-bottom {
+        min-height: 3.5rem;
+        padding: 0.2rem 0.1rem 0.1rem 0.5rem;
+    }
+    
+    /* 縮小床位內的圖示與文字 */
+    .pressure>img,
+    .heartbeat>img,
+    .dehydration>img,
+    .idhrate>img {
+        height: 1.1em;
+    }
+    
+    .img-text {
+        font-size: 1.3rem;
+    }
+
+    /* 調整右下角高風險清單的寬度與間距 */
+    .high-risk-area {
+        min-width: 28rem;
+        max-width: 32rem;
+        margin-left: 1rem;
+        padding: 1.2rem;
+    }
+    
+    .high-risk-title {
+        font-size: 1.6rem;
+    }
+    
+    .high-risk-item .bed-name {
+        font-size: 1.6rem;
+    }
+    
+    .high-risk-item .risk-probability {
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 1920px) {
+    .area_a {
+        min-width: 36rem;
+        max-width: 42rem;
+    }
+    
+    .area.area_a ul {
+        min-width: 36rem;
+        max-width: 42rem;
+    }
+}
+
+@media (max-width: 1600px) {
+    html {
+        font-size: 15px;
+    }
+    
+    .area_a {
+        min-width: 34rem;
+        max-width: 40rem;
+        min-height: 11rem;
+        max-height: 13rem;
+    }
+    
+    .area.area_a ul {
+        min-width: 34rem;
+        max-width: 40rem;
+        column-gap: 0.4rem;
+        row-gap: 0.35rem;
+    }
+    
+    .bed_a {
+        min-height: 6.5rem;
+        max-height: 6.5rem;
+    }
+}
+
+@media (max-width: 1440px) {
+    html {
+        font-size: 14px;
+    }
+    
+    .area_a {
+        min-width: 32rem;
+        max-width: 38rem;
+        min-height: 10rem;
+        max-height: 12rem;
+    }
+    
+    .area.area_a ul {
+        min-width: 32rem;
+        max-width: 38rem;
+    }
+}
+
+@media (max-width: 1366px) {
+    html {
+        font-size: 13px;
+    }
+    
+    .left-boxes {
+        width: 32rem;
+    }
+    
+    .area_a {
+        min-width: 30rem;
+        max-width: 36rem;
+        margin-left: 2rem;
+    }
+    
+    .area.area_a ul {
+        min-width: 30rem;
+        max-width: 36rem;
+        column-gap: 0.4rem;
+        row-gap: 0.3rem;
+    }
+    
+    .bed_a {
+        min-height: 6rem;
+        max-height: 6rem;
+    }
+    
+    .bed-top {
+        height: 1.6rem;
+        font-size: 1.2rem;
+    }
+    
+    .pressure>img,
+    .heartbeat>img,
+    .dehydration>img,
+    .idhrate>img {
+        height: 1.3em;
+    }
+    
+    .img-text {
+        font-size: 1.55rem;
+    }
+}
+
+@media (max-width: 1280px) {
+    html {
+        font-size: 12px;
+    }
+    
+    .area_a {
+        min-width: 28rem;
+        max-width: 34rem;
+        min-height: 9rem;
+        max-height: 11rem;
+    }
+    
+    .area.area_a ul {
+        min-width: 28rem;
+        max-width: 34rem;
+        margin: 0.2em 0.4em;
+        padding: 0 0.4em;
+    }
+    
+    .bed {
+        min-width: 8.5rem;
+    }
+}
+
+@media (max-width: 1024px) {
+    html {
+        font-size: 11px;
+    }
+    
+    .left-boxes {
+        width: 28rem;
+    }
+    
+    .area_a {
+        min-width: 26rem;
+        max-width: 32rem;
+        min-height: 8rem;
+        max-height: 10rem;
+        margin-left: 1.5rem;
+    }
+    
+    .area.area_a ul {
+        min-width: 26rem;
+        max-width: 32rem;
+        column-gap: 0.3rem;
+        row-gap: 0.25rem;
+    }
+    
+    .bed_a {
+        min-height: 5.5rem;
+        max-height: 5.5rem;
+    }
+    
+    .bed-top {
+        height: 1.5rem;
+        font-size: 1.1rem;
+    }
+    
+    .bed-bottom {
+        min-height: 4rem;
+        padding: 0.2rem 0.15rem 0.1rem 0.8rem;
+    }
+}
+
+@media (max-width: 768px) {
+    html {
+        font-size: 10px;
+    }
+    
+    .map {
+        padding: 1rem;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+    }
+    
+    .left-boxes {
+        grid-column: 1;
+        grid-row: 1;
+        width: 100%;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.4rem;
+    }
+    
+    .area_a {
+        grid-column: 1;
+        grid-row: 2;
+        min-width: 100%;
+        max-width: 100%;
+        margin-left: 0;
+        margin-top: 1rem;
+    }
+    
+    .area.area_a ul {
+        min-width: 100%;
+        max-width: 100%;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+    }
+    
+    .high-risk-area {
+        grid-column: 1;
+        grid-row: 3;
+        margin-left: 0;
+        margin-top: 1rem;
+        min-width: 100%;
+        max-width: 100%;
+    }
+}
