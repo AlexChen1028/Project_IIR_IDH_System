@@ -36,7 +36,7 @@
 ```
 醫院透析資料 API ──(每 5 分鐘 cron)──> scripts/fetch_API.py ──> CSV ──> SQLite 資料庫
                                                                   │
-                          EBM / Transformer 模型 <─────────────────┤
+                          EBM / Transformer 模型 <────────────────┤
                                      │                            │
                                      └────────> Django 網頁儀表板 <┘
                                                   (+ Ollama LLM 摘要)
