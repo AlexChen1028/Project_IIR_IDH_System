@@ -10,3 +10,5 @@ interface/weights/*.pth
 interface/weights/*.joblib
 interface/weights/gru_*/
 static/js/highcharts.js
+interface/weights/balance_train_good
+api_content.json
