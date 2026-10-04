@@ -72,8 +72,8 @@
             <div class="bed-top">{{ patient.bed }}  {{ patient.id.display_name }} </div>
           {% endif %}
             {% if patient.random_code == 1%}<img src="/static/img/Red_check.svg" class="redCheck" hidden>{% else %}{% endif %}
-            {% if patient.first_click and patient.random_code == 1 and not patient.done_warning %}<img src="/static/img/warning.svg" class="warning-icon">{% else %}{% endif %}
-            <div class="and bed-bottom {% if patient.idh >= firstThreshold and patient.random_code == 1 and not patient.done_warning and not patient.first_click %}danger-bg alert-trigger{% else %}{% endif %}">
+            {% if patient.ebm_warning %}<img src="/static/img/warning.svg" class="warning-icon ebm-warning-icon" title="EBM 預測高風險">{% elif patient.first_click and patient.random_code == 1 and not patient.done_warning %}<img src="/static/img/warning.svg" class="warning-icon">{% endif %}
+            <div class="and bed-bottom {% if patient.ebm_warning and not patient.done_warning %}danger-bg alert-trigger{% elif patient.idh >= firstThreshold and patient.random_code == 1 and not patient.done_warning and not patient.first_click %}danger-bg alert-trigger{% endif %}">
               <div class="pressure">
                 {% if patient.record.SBP == 0 %}
                 <div class="img-text"> -/- </div>
@@ -156,8 +156,8 @@
                 <div class="bed-top">{{ patient.bed }}  {{ patient.id.display_name }} </div>
               {% endif %}
                 {% if patient.random_code == 1%}<img src="/static/img/Red_check.svg" class="redCheck" hidden>{% else %}{% endif %}
-                {% if patient.first_click and patient.random_code == 1 and not patient.done_warning %}<img src="/static/img/warning.svg" class="warning-icon">{% else %}{% endif %}
-                <div class="and bed-bottom {% if patient.idh >= firstThreshold and patient.random_code == 1 and not patient.done_warning and not patient.first_click %}danger-bg alert-trigger{% else %}{% endif %}">
+                {% if patient.ebm_warning %}<img src="/static/img/warning.svg" class="warning-icon ebm-warning-icon" title="EBM 預測高風險">{% elif patient.first_click and patient.random_code == 1 and not patient.done_warning %}<img src="/static/img/warning.svg" class="warning-icon">{% endif %}
+                <div class="and bed-bottom {% if patient.ebm_warning and not patient.done_warning %}danger-bg alert-trigger{% elif patient.idh >= firstThreshold and patient.random_code == 1 and not patient.done_warning and not patient.first_click %}danger-bg alert-trigger{% endif %}">
                   <div class="pressure">
                     {% if patient.record.SBP == 0 %}
                     <div class="img-text"> -/- </div>
@@ -239,8 +239,8 @@
                 <div class="bed-top">{{ patient.bed }}  {{ patient.id.display_name }} </div>
               {% endif %}
                 {% if patient.random_code == 1%}<img src="/static/img/Red_check.svg" class="redCheck" hidden>{% else %}{% endif %}
-                {% if patient.first_click and patient.random_code == 1 and not patient.done_warning %}<img src="/static/img/warning.svg" class="warning-icon">{% else %}{% endif %}
-                <div class="and bed-bottom {% if patient.idh >= firstThreshold and patient.random_code == 1 and not patient.done_warning and not patient.first_click %}danger-bg alert-trigger{% else %}{% endif %}">
+                {% if patient.ebm_warning %}<img src="/static/img/warning.svg" class="warning-icon ebm-warning-icon" title="EBM 預測高風險">{% elif patient.first_click and patient.random_code == 1 and not patient.done_warning %}<img src="/static/img/warning.svg" class="warning-icon">{% endif %}
+                <div class="and bed-bottom {% if patient.ebm_warning and not patient.done_warning %}danger-bg alert-trigger{% elif patient.idh >= firstThreshold and patient.random_code == 1 and not patient.done_warning and not patient.first_click %}danger-bg alert-trigger{% endif %}">
                   <div class="pressure">
                     {% if patient.record.SBP == 0 %}
                     <div class="img-text"> -/- </div>
@@ -323,8 +323,8 @@
                 <div class="bed-top">{{ patient.bed }}  {{ patient.id.display_name }} </div>
               {% endif %}
                 {% if patient.random_code == 1%}<img src="/static/img/Red_check.svg" class="redCheck" hidden>{% else %}{% endif %}
-                {% if patient.first_click and patient.random_code == 1 and not patient.done_warning %}<img src="/static/img/warning.svg" class="warning-icon">{% else %}{% endif %}
-                <div class="and bed-bottom {% if patient.idh >= firstThreshold and patient.random_code == 1 and not patient.done_warning and not patient.first_click %}danger-bg alert-trigger{% else %}{% endif %}">
+                {% if patient.ebm_warning %}<img src="/static/img/warning.svg" class="warning-icon ebm-warning-icon" title="EBM 預測高風險">{% elif patient.first_click and patient.random_code == 1 and not patient.done_warning %}<img src="/static/img/warning.svg" class="warning-icon">{% endif %}
+                <div class="and bed-bottom {% if patient.ebm_warning and not patient.done_warning %}danger-bg alert-trigger{% elif patient.idh >= firstThreshold and patient.random_code == 1 and not patient.done_warning and not patient.first_click %}danger-bg alert-trigger{% endif %}">
                   <div class="pressure">
                     {% if patient.record.SBP == 0 %}
                     <div class="img-text"> -/- </div>
@@ -406,8 +406,8 @@
               <div class="bed-top">{{ patient.bed }}  {{ patient.id.display_name }} </div>
             {% endif %}
             {% if patient.random_code == 1%}<img src="/static/img/Red_check.svg" class="redCheck" hidden>{% else %}{% endif %}
-            {% if patient.first_click and patient.random_code == 1 and not patient.done_warning %}<img src="/static/img/warning.svg" class="warning-icon">{% else %}{% endif %}
-              <div class="and bed-bottom {% if patient.idh >= firstThreshold and patient.random_code == 1 and not patient.done_warning and not patient.first_click %}danger-bg{% else %}{% endif %}">
+            {% if patient.ebm_warning %}<img src="/static/img/warning.svg" class="warning-icon ebm-warning-icon" title="EBM 預測高風險">{% elif patient.first_click and patient.random_code == 1 and not patient.done_warning %}<img src="/static/img/warning.svg" class="warning-icon">{% endif %}
+              <div class="and bed-bottom {% if patient.ebm_warning and not patient.done_warning %}danger-bg{% elif patient.idh >= firstThreshold and patient.random_code == 1 and not patient.done_warning and not patient.first_click %}danger-bg{% endif %}">
                 <div class="pressure">
                   {% if patient.record.SBP == 0 %}
                   <div class="img-text"> -/- </div>
@@ -598,8 +598,8 @@
                 <div class="bed-top">{{ patient.bed }}  {{ patient.id.display_name }} </div>
               {% endif %}
               {% if patient.random_code == 1 %}<img src="/static/img/Red_check.svg" class="redCheck" hidden>{% endif %}
-              {% if patient.first_click and patient.random_code == 1 and not patient.done_warning %}<img src="/static/img/warning.svg" class="warning-icon">{% endif %}
-                <div class="and bed-bottom {% if patient.idh >= firstThreshold and patient.random_code == 1 and not patient.done_warning and not patient.first_click %}danger-bg{% endif %}">
+              {% if patient.ebm_warning %}<img src="/static/img/warning.svg" class="warning-icon ebm-warning-icon" title="EBM 預測高風險">{% elif patient.first_click and patient.random_code == 1 and not patient.done_warning %}<img src="/static/img/warning.svg" class="warning-icon">{% endif %}
+                <div class="and bed-bottom {% if patient.ebm_warning and not patient.done_warning %}danger-bg{% elif patient.idh >= firstThreshold and patient.random_code == 1 and not patient.done_warning and not patient.first_click %}danger-bg{% endif %}">
                   <div class="pressure">
                     {% if patient.record.SBP == 0 %}
                     <div class="img-text"> -/- </div>
@@ -689,8 +689,8 @@
                 <div class="bed-top">{{ patient.bed }}  {{ patient.id.display_name }} </div>
               {% endif %}
               {% if patient.random_code == 1 %}<img src="/static/img/Red_check.svg" class="redCheck" hidden>{% endif %}
-              {% if patient.first_click and patient.random_code == 1 and not patient.done_warning %}<img src="/static/img/warning.svg" class="warning-icon">{% endif %}
-                <div class="and bed-bottom {% if patient.idh >= firstThreshold and patient.random_code == 1 and not patient.done_warning and not patient.first_click %}danger-bg{% endif %}">
+              {% if patient.ebm_warning %}<img src="/static/img/warning.svg" class="warning-icon ebm-warning-icon" title="EBM 預測高風險">{% elif patient.first_click and patient.random_code == 1 and not patient.done_warning %}<img src="/static/img/warning.svg" class="warning-icon">{% endif %}
+                <div class="and bed-bottom {% if patient.ebm_warning and not patient.done_warning %}danger-bg{% elif patient.idh >= firstThreshold and patient.random_code == 1 and not patient.done_warning and not patient.first_click %}danger-bg{% endif %}">
                   <div class="pressure">
                     {% if patient.record.SBP == 0 %}
                     <div class="img-text"> -/- </div>
@@ -823,8 +823,8 @@
                 <div class="bed-top">{{ patient.bed }}  {{ patient.id.display_name }} </div>
               {% endif %}
               {% if patient.random_code == 1 %}<img src="/static/img/Red_check.svg" class="redCheck" hidden>{% endif %}
-              {% if patient.first_click and patient.random_code == 1 and not patient.done_warning %}<img src="/static/img/warning.svg" class="warning-icon">{% endif %}
-                <div class="and bed-bottom {% if patient.idh >= firstThreshold and patient.random_code == 1 and not patient.done_warning and not patient.first_click %}danger-bg{% endif %}">
+              {% if patient.ebm_warning %}<img src="/static/img/warning.svg" class="warning-icon ebm-warning-icon" title="EBM 預測高風險">{% elif patient.first_click and patient.random_code == 1 and not patient.done_warning %}<img src="/static/img/warning.svg" class="warning-icon">{% endif %}
+                <div class="and bed-bottom {% if patient.ebm_warning and not patient.done_warning %}danger-bg{% elif patient.idh >= firstThreshold and patient.random_code == 1 and not patient.done_warning and not patient.first_click %}danger-bg{% endif %}">
                   <div class="pressure">
                     {% if patient.record.SBP == 0 %}
                     <div class="img-text"> -/- </div>

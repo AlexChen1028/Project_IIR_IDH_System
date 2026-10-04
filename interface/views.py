@@ -26,6 +26,11 @@ from interface.utils import CryptoManager # 115/01/14 update for encryption/decr
 # 115/02/25 update 用來算標準差跟抓api資料的函式
 import math
 import requests
+import threading
+import time as time_module
+
+# === [修正] corn_job 全域鎖，避免重複執行 ===
+_corn_job_lock = threading.Lock()
 
 # === [NEW] 新版 LangChain 引用 (LCEL 架構) ===
 from langchain_community.chat_models import ChatOllama
@@ -189,7 +194,7 @@ def fetch_history_stats(real_case_number, current_date_str):
     start_date = (datetime.strptime(current_date_str, "%Y-%m-%d") - timedelta(days=45)).strftime("%Y-%m-%d")
     api_url = f"{HOSPITAL_API_URL}?case_number={real_case_number}&start_date={start_date}&end_date={end_date}"
     try:
-        response = requests.get(api_url, timeout=10)
+        response = requests.get(api_url, timeout=30)  # ✅ [修正] 增加 timeout 到 30 秒
         if response.status_code == 200:
             res_json = response.json()
             api_records = res_json.get('data_list', [])
@@ -725,28 +730,24 @@ def get_patients():
                     
                     patient['random_code'] = d.random_code
 
-                    # ========== [核心修正] EBM 預測區塊 (含 Debug) 這邊需要改 ==========
-                    first_record = Record.objects.filter(d_id=d.d_id).order_by('record_time').last()
+                    # ========== [核心修正] EBM 預測區塊 — 整次洗腎持續警示版 ==========
+                    first_record = Record.objects.filter(d_id=d.d_id).order_by('record_time').first()  # ✅ 修正：用 .first() 取第一筆紀錄
                     ebm_warning = False  
                     ebm_prob = 0.0
                     
                     if first_record:
                         time_since_first_record = (datetime.now() - first_record.record_time).total_seconds()
-                        # print("1",time_since_first_record)
 
-                        interval_index = float(time_since_first_record % 1800)
-                        # print(interval_index)
-                        
-                        # 為了不跟舊模型的 flag 衝突，EBM 的 flag 設為負數且隨區間遞減 (-1, -2, -3...)
-                        current_ebm_flag = -1 - interval_index
+                        # ✅ 修正：用整數區間索引，而非秒數餘數
+                        interval_index = int(time_since_first_record // 1800)  # 每 30 分鐘一個區間
+                        current_ebm_flag = -1 - interval_index  # -1, -2, -3...
 
                         # 檢查「當前這個 30 分鐘區間」是否已經做過 EBM 預測
                         existing_ebm_pred = Predict.objects.filter(d_id=d.d_id, flag=current_ebm_flag).first()
-                        # print(existing_ebm_pred)
                             
                         if not existing_ebm_pred:
                             # === Case A: 尚未預測過，執行預測 ===
-                            print(f"[EBM NEW] Bed {bed} 符合條件，開始預測...")
+                            print(f"[EBM NEW] Bed {bed} 區間 {interval_index}，開始預測...")
                             try:
                                 from interface.model.EBM import predict_idh_ebm
                                 ebm_prob = predict_idh_ebm(d.d_id, use_database_flag=False)
@@ -755,28 +756,23 @@ def get_patients():
                                 if ebm_prob >= 0.01 and d.random_code == 1:
                                     ebm_warning = True
                                     print(f"[EBM ALERT] Bed {bed} 觸發警告! 機率: {ebm_prob}")
-                                    # === [新增] 自動觸發「待確認」狀態 ===
-                                    # 檢查目前該床位是否已  經有「尚未處理」的警告，避免重複建立
+                                    # === 自動觸發「待確認」狀態 ===
                                     has_unhandled_warning = Warnings.objects.filter(p_bed=bed, dismiss_time__isnull=True).exists()
                                     
                                     if not has_unhandled_warning:
-                                        # 取得病患真實姓名 (前面已經透過 CryptoManager 解密存在 p_obj.display_name 中)
                                         real_name = getattr(p_obj, 'display_name', '系統預測')
-                                        
-                                        # 建立一筆警告紀錄，因為沒有給 dismiss_time，前端就會亮起「待確認」的 icon！
                                         Warnings.objects.create(
                                             p_bed=bed,
                                             p_name=real_name,
                                             click_time=datetime.now()
                                         )
-                                    # =====================================
                                 else:
                                     print("not alert")
 
                                 # 儲存結果
                                 Predict.objects.create(
                                     d_id=d, 
-                                    flag=current_ebm_flag,  # ✅ 換成我們算出來的動態 flag 
+                                    flag=current_ebm_flag,
                                     pred_idh=Decimal(str(ebm_prob))
                                 )
                             except Exception as e:
@@ -784,19 +780,27 @@ def get_patients():
                         else:
                             # === Case B: 已經預測過，從資料庫撈回數值 ===
                             try:
-                                # 將 Decimal 轉回 float
                                 ebm_prob = float(existing_ebm_pred.pred_idh)
-                                
-                                # [關鍵修正] 重新判定警告狀態 (確保前端刷新的時候狀態正確)
-                                if ebm_prob >= 0.01 and d.random_code == 1:
-                                    ebm_warning = True
-                                
-                                # [DEBUG 2] 確認有讀取到歷史資料
-                                # print(f"[EBM LOAD] Bed {bed} 使用歷史資料: {ebm_prob*100:.1f}% (Warning: {ebm_warning})")
-
                             except Exception as e:
                                 print(f"[EBM READ ERROR] Bed {bed}: {e}")
-                        # print(f"[EBM SKIP] Bed {bed} 超過 30 分鐘")
+
+                        # ✅ [關鍵新增] 整次洗腎持續警示邏輯
+                        # 只要本次洗腎(d_id)中有任何一筆 EBM 預測 >= 0.01，就持續警示
+                        if not ebm_warning and d.random_code == 1:
+                            any_high_ebm = Predict.objects.filter(
+                                d_id=d.d_id,
+                                flag__lt=0,  # EBM 預測的 flag 都是負數
+                                pred_idh__gte=Decimal('0.01')
+                            ).exists()
+                            if any_high_ebm:
+                                ebm_warning = True
+                                # 取該次洗腎中最高的 EBM 機率
+                                max_ebm = Predict.objects.filter(
+                                    d_id=d.d_id, flag__lt=0
+                                ).order_by('-pred_idh').first()
+                                if max_ebm:
+                                    ebm_prob = max(ebm_prob, float(max_ebm.pred_idh))
+                                print(f"[EBM PERSIST] Bed {bed} 持續警示 (歷史最高機率: {ebm_prob*100:.1f}%)")
 
                     # 傳遞到前端
                     patient['ebm_warning'] = ebm_warning
@@ -878,8 +882,10 @@ def get_high_risk_patients(current_time):
         for dialysis in now_dialysis:
             try:
                 # 取得該床位最新的預測紀錄
+                # 取該次透析的最新舊模型預測 (flag >= 0)，用於右下角高風險清單
                 latest_predict = Predict.objects.filter(
-                    d_id=dialysis.d_id
+                    d_id=dialysis.d_id,
+                    flag__gte=0  # 舊模型每小時預測
                 ).order_by('-pred_time').first()
                 
                 if latest_predict:
@@ -1682,25 +1688,38 @@ def update_treatment_status(request):
 
 # 要改回
 def corn_job():
-    """修改後的 corn_job，加入錯誤處理"""
-    try:
-        fetchData()
-        print("✅ Successfully fetch API")
-    except Exception as e:
-        print(f"⚠️ Fetch API 失敗: {e}")
-        # 不中斷執行，繼續處理
+    """修改後的 corn_job，加入錯誤處理 + 全域鎖避免重複執行"""
+    if not _corn_job_lock.acquire(blocking=False):
+        print("⚠️ [corn_job] 上一次執行尚未完成，跳過此次")
+        return
     
     try:
-        splitCSV()
-        print("✅ Successfully split to 3 CSV files")
-    except Exception as e:
-        print(f"⚠️ Split CSV 失敗: {e}")
-    
-    try:
-        saveData()
-        print("✅ [corn_job]Successfully save new data to database")
-    except Exception as e:
-        print(f"⚠️ Save data 失敗: {e}")
+        start_time_cj = time_module.time()
+        print(f"🔄 [corn_job] 開始執行... ({datetime.now().strftime('%H:%M:%S')})")
+        
+        try:
+            fetchData()
+            print("✅ Successfully fetch API")
+        except Exception as e:
+            print(f"⚠️ Fetch API 失敗: {e}")
+            # 不中斷執行，繼續處理
+        
+        try:
+            splitCSV()
+            print("✅ Successfully split to 3 CSV files")
+        except Exception as e:
+            print(f"⚠️ Split CSV 失敗: {e}")
+        
+        try:
+            saveData()
+            print("✅ [corn_job]Successfully save new data to database")
+        except Exception as e:
+            print(f"⚠️ Save data 失敗: {e}")
+        
+        elapsed = time_module.time() - start_time_cj
+        print(f"✅ [corn_job] 執行完成，耗時 {elapsed:.1f} 秒")
+    finally:
+        _corn_job_lock.release()
         
     # try:
     #     sync_csv_to_db()

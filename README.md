@@ -40,11 +40,15 @@
 
 | 模型 | 位置 | 用途 |
 |---|---|---|
-| EBM（Explainable Boosting Machine） | `interface/model/EBM.py` | 以 16 個透析前特徵（性別、年齡、近 7／28 天 IDH 次數、起始血壓、脈搏、體重、目標脫水量、血流速等）預測風險，可解釋各特徵貢獻；輸出再經 Isotonic Regression 機率校準 |
+| EBM（Explainable Boosting Machine） | `interface/model/EBM.py` | 以 16 個透析前特徵（性別、年齡、近 7／28 天 IDH 次數、起始血壓、脈搏、體重、目標脫水量、血流速等）預測風險，可解釋各特徵貢獻；目前直接使用模型原始機率（已不套用 Isotonic Regression 校準） |
 | Transformer | `interface/model/prediction.py`、`interface/weights/transformer_model.py` | 以透析過程中的時間序列紀錄（血壓、脈搏、透析機參數等）預測 IDH |
 | GRU | `interface/weights/gru_model.py` | 另一種時間序列模型 |
 
 > 上述三個模型的架構與訓練皆由實驗室學長姐建立，本專題在此基礎上進行系統整合與應用。
+
+**EBM 警示機制**：每次透析以第一筆監測紀錄為起點，每 30 分鐘為一個區間各預測一次；只要該次透析中任一區間的預測機率 ≥ 0.01，儀表板就會對該床位**持續顯示警示**直到護理人員處理。
+
+**資料抓取**：`scripts/fetch_API.py` 呼叫醫院 API 時設有 30 秒 timeout，失敗最多重試 3 次（間隔 5 秒）；`corn_job` 加上全域鎖，避免上一次尚未完成時重複執行。
 
 **IDH 判定標準**：透析前收縮壓 < 160 mmHg 時，透析中收縮壓 < 90 mmHg 即算 IDH；透析前收縮壓 ≥ 160 mmHg 時，門檻為 100 mmHg（Nadir 90／100 定義，見 `interface/model/EBM.py`）。
 
@@ -60,7 +64,7 @@
 ```
 
 - 後端：Django 5、django-crontab（排程抓資料）
-- 模型：PyTorch（Transformer／GRU）、scikit-learn（Isotonic Regression 校準）、joblib（載入 EBM 模型）
+- 模型：PyTorch（Transformer／GRU）、scikit-learn、joblib（載入 EBM 模型）
 - 前端：Django Template、JavaScript、Highcharts
 - LLM：LangChain + Ollama
 

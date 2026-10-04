@@ -359,6 +359,7 @@
     min-width: 7rem;
     max-width: 9rem;
     position: relative;
+    z-index: 0;  /* 建立 stacking context，讓內部的 warning-icon 不會穿透 modal */
     transition: all .05s;
 }
 
@@ -372,6 +373,7 @@
     min-width: 11.25rem;   /* 從 9rem 再增加到 11rem */
     max-width: 12rem;   /* 從 10rem 再增加到 12rem */
     position: relative;
+    z-index: 0;  /* 建立 stacking context，讓內部的 warning-icon 不會穿透 modal */
     transition: all .05s;
 }
 
@@ -382,7 +384,7 @@
     right: -10px;  /* 根據您的喜好微調左右位置 (數字越小越往右) */
     width: 28px;   /* 鎖定寬度避免過大 */
     height: 28px;  /* 鎖定高度避免過大 */
-    z-index: 10;   /* 確保它浮在最上層，不會被別的字蓋住 */
+    z-index: 1;    /* 只需高於同層的 bed-top / bed-bottom，不可高於 modal */
 }
 
 .bed {
@@ -392,6 +394,7 @@
     border-radius: 0.5rem;
     min-width: 9.65rem;
     position: relative;
+    z-index: 0;  /* 建立 stacking context，讓內部的 warning-icon 不會穿透 modal */
     transition: all .05s;
 }
 

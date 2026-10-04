@@ -120,7 +120,7 @@ def prepare_ebm_features_v2(dialysis_id, use_database_flag=True):
 
 def predict_idh_ebm(dialysis_id, use_database_flag=False):
     """
-    使用 EBM Model 預測 IDH 風險，並使用 Isotonic Regression 進行校準
+    使用 EBM Model 預測 IDH 風險（直接回傳原始機率，不做 Isotonic 校準）
     """
     try:
         # 1. 載入 EBM 模型
@@ -144,31 +144,12 @@ def predict_idh_ebm(dialysis_id, use_database_flag=False):
         
         feature_vector = [features[name] for name in feature_names]
         
-        # 2. 取得原始機率 (Raw Probability)
+        # 2. 取得原始機率 (Raw Probability) — 不再做 Isotonic 校準
         raw_proba = model.predict_proba([feature_vector])[0][1]
         
-        # 3. 嘗試載入校準模型並進行校準 (Isotonic Calibration)
-        iso_model_path = os.path.join(settings.BASE_DIR, 'interface', 'weights', 'iso_calibration.joblib')
+        print(f"[EBM] Dialysis {dialysis_id} | Raw Probability: {raw_proba:.4f}")
         
-        if os.path.exists(iso_model_path):
-            try:
-                iso_reg = joblib.load(iso_model_path)
-                
-                # 使用 transform 進行機率校準
-                calibrated_proba = iso_reg.transform([raw_proba])[0]
-                
-                # Debug 訊息 (可選，觀察校準前後變化)
-                print(f"[EBM CALIBRATION] Dialysis {dialysis_id} | Raw: {raw_proba:.4f} -> Calibrated: {calibrated_proba:.4f}")
-                
-                return float(calibrated_proba)
-            
-            except Exception as e:
-                print(f"[EBM] Calibration Apply Error: {e}, using raw probability.")
-                return float(raw_proba)
-        else:
-            # 如果找不到校準模型，回傳原始機率
-            print(f"[EBM] No calibration model found at {iso_model_path}, using raw probability.")
-            return float(raw_proba)
+        return float(raw_proba)
         
     except Exception as e:
         print(f"[EBM] Error predicting for dialysis {dialysis_id}: {str(e)}")
